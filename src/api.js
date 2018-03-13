@@ -22,7 +22,7 @@ function getCredentialsAxios(){
 
 export default {
   user: {
-    login: (credentials) => axios.post(`${BASE_URL}/api/v1/auth/login`, credentials).then(res => res.data)
+    adminLogin: (credentials) => axios.post(`${BASE_URL}/api/v1/auth/admin/login`, credentials).then(res => res.data)
   },
   book: {
     fetch: () => getCredentialsAxios().get('/api/v1/book').then(res => res.data)

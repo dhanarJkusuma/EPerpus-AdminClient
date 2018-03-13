@@ -55,6 +55,7 @@ class LoginForm extends Component{
       let error = {};
       this.setState({ errors: error });
     }).catch((err) => {
+      console.log(err);
       let statusCode = err.response.status;
       switch (statusCode) {
         case 403:

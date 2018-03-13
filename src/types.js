@@ -1,9 +1,2 @@
 export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const FETCH_ALL_BOOK = 'FETCH_ALL_BOOK';
-
-export const ADD_CART = 'ADD_CART';
-export const REPLACE_STOCK_CART = 'REPLACE_STOCK_CART';
-export const DELETE_CART = 'DELETE_CART';
-export const CLEAR_CART = 'CLEAR_CART';
-
-export const UPDATE_PENDING_TRANSACTION = 'UPDATE_PENDING_TRANSACTION';

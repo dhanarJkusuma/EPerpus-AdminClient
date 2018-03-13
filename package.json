@@ -1,11 +1,11 @@
 {
-  "name": "si-client",
+  "name": "si-adminclient",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.17.1",
     "js-joda": "^1.6.2",
-    "material-ui": "^1.0.0-beta.31",
+    "material-ui": "^1.0.0-beta.37",
     "material-ui-icons": "^1.0.0-beta.17",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
@@ -19,7 +19,7 @@
     "typeface-roboto": "^0.0.54"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=1011 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

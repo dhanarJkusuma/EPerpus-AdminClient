@@ -1,7 +1,7 @@
 import { AUTH_LOGIN } from '../types';
 import api from '../api';
 
-export const login = (credentials) => (dispatch) =>
-  api.user.login(credentials).then(res => {
+export const adminLogin = (credentials) => (dispatch) =>
+  api.user.adminLogin(credentials).then(res => {
     localStorage.eLibraToken = res.token;
   })
