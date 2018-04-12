@@ -61,6 +61,7 @@ class CardDialog extends Component{
 }
 
 CardDialog.propType = {
+  open: PropTypes.object.isRequired,
   handleOpen: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired

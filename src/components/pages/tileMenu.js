@@ -31,7 +31,7 @@ export const adminMenuItems = (
       <ListItemIcon>
         <PlaylistAddCheckIcon />
       </ListItemIcon>
-      <ListItemText primary="Waiting List" />
+      <ListItemText primary="Report" />
     </ListItem>
   </div>
 );

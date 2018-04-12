@@ -13,15 +13,20 @@ import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { Route, Switch } from 'react-router-dom';
-import { adminMenuItems, userMenuItems } from '../menu/AdminMenu';
-
-
+import { adminMenuItems } from '../menu/AdminMenu';
+import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Button from 'material-ui/Button';
+import { connect } from 'react-redux';
 
 import CategoryPage from './CategoryPage';
 import BookPage from './BookPage';
 import PendingTrxPage from './PendingTrxPage';
-import WaitingListPage from './WaitingListPage';
-
+import ReportPage from './ReportPage';
+import ExitToAppIcon from 'material-ui-icons/ExitToApp';
+import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import CardDialog from '../common/CardDialog';
+import AuthRoute from '../routes/AuthRoute';
+import { checkToken } from '../../actions/auth';
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -86,12 +91,18 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
   },
+  card: {
+    padding: 20
+  }
 });
 
 class AdminDashboard extends React.Component {
   state = {
     open: false,
+    openDialogLogout: false
   };
+
+  componentDidMount = () => this.checkAuth();
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -100,6 +111,31 @@ class AdminDashboard extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+
+  handleExit = () => {
+    this.setState({ openDialogLogout: true });
+  }
+
+  handleLogoutClose = () => {
+    this.setState({ openDialogLogout: false });
+  }
+
+  checkAuth = () => {
+    let token = localStorage.getItem('eLibraAdminToken');
+    if(typeof token == 'undefined' || token == null){
+      this.setState({ authed: false })
+    }
+    this.props.checkToken(token).then(res =>  {
+      this.setState({ authed: true })
+    }).catch(err => {
+      this.setState({ authed: false })
+    })
+  }
+
+  handleLogoutOpen = () => {
+    localStorage.clear();
+    this.props.history.push('/');
+  }
 
   render() {
     const { classes, theme } = this.props;
@@ -139,19 +175,41 @@ class AdminDashboard extends React.Component {
           <Divider />
           <List>{adminMenuItems}</List>
           <Divider />
-          <List>{userMenuItems}</List>
+          <List onClick={ this.handleExit }>
+            <div>
+              <ListItem button>
+                <ListItemIcon>
+                  <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItem>
+            </div>
+          </List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Switch>
-            <Route path='/dashboard/category' component={CategoryPage}/>
-            <Route path='/dashboard/book' component={BookPage}/>
-            <Route path='/dashboard/pending' component={PendingTrxPage}/>
-            <Route path='/dashboard/waiting' component={WaitingListPage}/>
-            {/* when none of the above match, <NoMatch> will be rendered */}
-            <Route component={CategoryPage}/>
-          </Switch>
+          <div>
+            <Card className={classes.card}>
+              <CardContent>
+                <Switch>
+                  <AuthRoute authed={ this.state.authed } path='/dashboard/category' component={CategoryPage}/>
+                  <AuthRoute authed={ this.state.authed } path='/dashboard/book' component={BookPage}/>
+                  <AuthRoute authed={ this.state.authed } path='/dashboard/pending' component={PendingTrxPage}/>
+                  <AuthRoute authed={ this.state.authed } path='/dashboard/report' component={ReportPage}/>
+                  {/* when none of the above match, <NoMatch> will be rendered */}
+                  <Route component={CategoryPage}/>
+                </Switch>
+              </CardContent>
+            </Card>
+          </div>
+
         </main>
+        <CardDialog
+          open={ this.state.openDialogLogout }
+          handleOpen={ this.handleLogoutOpen }
+          handleClose={ this.handleLogoutClose }
+          message="Apakah anda yakin ingin keluar dari aplikasi ?"
+        />
       </div>
     );
   }
@@ -160,6 +218,8 @@ class AdminDashboard extends React.Component {
 AdminDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  checkToken: PropTypes.func.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(AdminDashboard);
+const styledComponent = withStyles(styles, { withTheme: true })(AdminDashboard);
+export default connect(null, { checkToken })(styledComponent);

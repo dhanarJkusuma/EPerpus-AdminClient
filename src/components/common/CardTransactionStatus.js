@@ -9,6 +9,9 @@ import Typography from 'material-ui/Typography';
 import SkipPreviousIcon from 'material-ui-icons/SkipPrevious';
 import PlayArrowIcon from 'material-ui-icons/PlayArrow';
 import BookIcon from 'material-ui-icons/Book';
+import VisibilityIcon from 'material-ui-icons/Visibility';
+import PersonIcon from 'material-ui-icons/Person';
+import DoneIcon from 'material-ui-icons/Done';
 import SkipNextIcon from 'material-ui-icons/SkipNext';
 import AssignmentReturnIcon from 'material-ui-icons/AssignmentReturn';
 import ExpansionPanel, {
@@ -22,6 +25,8 @@ import Divider from 'material-ui/Divider';
 import classNames from 'classnames';
 import Avatar from 'material-ui/Avatar';
 import { ZonedDateTime, DateTimeFormatter } from 'js-joda';
+import ResponsiveBookDialog from '../common/ResponsiveBookDialog';
+import ResponsiveMemberDialog from '../common/ResponsiveMemberDialog';
 
 const styles = theme => ({
   item: {
@@ -64,11 +69,32 @@ const styles = theme => ({
 });
 
 class CardTransactionStatus extends Component {
+
   state = {
     monthConstant : [
       'Januari','Februari','Maret','April','Mei','Juni',
       'Juli','Agustus','September','Oktober','November','Desember'
-    ]
+    ],
+    openBookDetail: false,
+    openMember: false,
+    selectedBook: {
+        code: "N/A",
+        title: "N/A",
+        author: "N/A",
+        editor: "N/A",
+        publisher: "N/A",
+        categories: "N/A",
+        year: 0,
+        quantity: 0
+    },
+    member: {
+        publicId: "UID",
+        name: "UName",
+        phone: "UPhone",
+        address: "UAddress",
+        email: "UEmail",
+        company: "UCompany"
+    },
   }
 
   constructor(props){
@@ -76,7 +102,45 @@ class CardTransactionStatus extends Component {
   }
 
   handleClick = () => {
-    console.log('test');
+    this.props.approveTransaction(this.props.transaction.publicId);
+  }
+
+  handleApprove = () => {
+    this.props.approveTransaction(this.props.transaction.publicId);
+  }
+
+  handleDetail = book => () => {
+    this.setState({ selectedBook: book, openBookDetail: true });
+  }
+
+  handleMemberOpen = member => () => {
+    this.setState({ member, openMember: true });
+  }
+
+  handleCloseDetailBook = () => {
+    let initBook = {
+        code: "N/A",
+        title: "N/A",
+        author: "N/A",
+        editor: "N/A",
+        publisher: "N/A",
+        categories: "N/A",
+        year: 0,
+        quantity: 0
+    };
+    this.setState({ selectedBook: initBook, openBookDetail: false })
+  }
+
+  handleCloseMember = () => {
+    let initMember = {
+        publicId: "UID",
+        name: "UName",
+        phone: "UPhone",
+        address: "UAddress",
+        email: "UEmail",
+        company: "UCompany"
+    };
+    this.setState({ member: initMember, openMember: false })
   }
 
   handleCompleteTransaction = () => {
@@ -102,6 +166,8 @@ class CardTransactionStatus extends Component {
     + parsedZonedDateTime.minute()
     + ":"
     + parsedZonedDateTime.second();
+
+
     const books = this.props.transaction.books.map((book, index) => {
       return (
         <Chip
@@ -112,11 +178,38 @@ class CardTransactionStatus extends Component {
              </Avatar>
            }
            label={ book.title }
-           onClick={ this.handleClick }
+           onDelete={ this.handleDetail(book) }
            className={ classes.chip }
+           deleteIcon={<VisibilityIcon />}
          />
       )
-    })
+    });
+    const memberChip = (
+      <Chip
+         key={ this.props.transaction.member.publicId }
+         label={ this.props.transaction.member.name }
+         onDelete={ this.handleMemberOpen(this.props.transaction.member) }
+         className={ classes.chip }
+         deleteIcon={<PersonIcon />}
+       />
+    )
+    const isComplete = this.props.transaction.returnDate != null && this.props.transaction.isApproved;
+    var label = "Complete";
+    var showActionApprove = false;
+    if(!isComplete){
+      const isWaitingForApprove = this.props.transaction.returnDate != null && !this.props.transaction.isApproved;
+      label = isWaitingForApprove ? "Menunggu Persetujuan" : "Belum Dikembalikan";
+      showActionApprove = isWaitingForApprove ? true : false;
+    }
+    const approveAction = (
+      <Chip
+        label="Setujui"
+        onClick={ this.handleClick }
+        onDelete={ this.handleApprove }
+        className={classes.chip}
+        deleteIcon={<DoneIcon />}
+      />
+    );
     return (
       <div className={classes.item}>
         <ExpansionPanel>
@@ -127,20 +220,34 @@ class CardTransactionStatus extends Component {
            <div className={classes.column}>
              <Typography className={classes.secondaryHeading}>{ date }</Typography>
            </div>
+           <div className={classes.column}>
+             <Chip label={ label } className={classes.chip} />
+           </div>
          </ExpansionPanelSummary>
          <ExpansionPanelDetails className={classes.details}>
            <div className={classes.column}>
+            { memberChip }
             { books }
            </div>
          </ExpansionPanelDetails>
          <Divider />
          <ExpansionPanelActions>
-           <Button size="small" color="primary" onClick={ this.handleCompleteTransaction }>
-            Kembalikan
-            <AssignmentReturnIcon className={classes.rightIcon} />
-           </Button>
+         { showActionApprove ? approveAction : "" }
          </ExpansionPanelActions>
+         <Divider />
        </ExpansionPanel>
+
+       <ResponsiveBookDialog
+        open={ this.state.openBookDetail }
+        book={ this.state.selectedBook }
+        onClose={ this.handleCloseDetailBook }
+       />
+
+       <ResponsiveMemberDialog
+        open={ this.state.openMember }
+        member={ this.state.member }
+        onClose={ this.handleCloseMember }
+       />
       </div>
     );
   }
@@ -150,7 +257,7 @@ CardTransactionStatus.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   transaction: PropTypes.object.isRequired,
-  onCompleteTransaction: PropTypes.func.isRequired
+  approveTransaction: PropTypes.func.isRequired
 };
 
 

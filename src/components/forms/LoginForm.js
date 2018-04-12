@@ -106,7 +106,7 @@ class LoginForm extends Component{
             />
           </CardContent>
           <CardActions>
-            <Button raised color="primary" className={ classes.button } onClick={ this.onSubmit }>
+            <Button color="primary" className={ classes.button } onClick={ this.onSubmit }>
               Sign In
             </Button>
           </CardActions>

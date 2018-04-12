@@ -5,7 +5,7 @@ import LabelIcon from 'material-ui-icons/Label';
 import BookIcon from 'material-ui-icons/Book';
 import FeedbackIcon from 'material-ui-icons/Feedback';
 
-import ExitToAppIcon from 'material-ui-icons/ExitToApp';
+
 import PlaylistAddCheckIcon from 'material-ui-icons/PlaylistAddCheck';
 
 export const adminMenuItems = (
@@ -28,22 +28,11 @@ export const adminMenuItems = (
       </ListItemIcon>
       <ListItemText primary="Pending" />
     </ListItem>
-    <ListItem component={Link} to="/dashboard/waiting" button>
+    <ListItem component={Link} to="/dashboard/report" button>
       <ListItemIcon>
         <PlaylistAddCheckIcon />
       </ListItemIcon>
       <ListItemText primary="Approve" />
-    </ListItem>
-  </div>
-);
-
-export const userMenuItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <ExitToAppIcon />
-      </ListItemIcon>
-      <ListItemText primary="Logout" />
     </ListItem>
   </div>
 );
