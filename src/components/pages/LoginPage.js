@@ -37,7 +37,7 @@ class LoginPage extends Component{
   render(){
     return (
       <div>
-        <StaticNavbar title="E-Libra | Admin | Sign In Page" />
+        <StaticNavbar title="Library Information System | Admin | Sign In Page" />
 
         <LoginForm submit={ this.onLogin } />
       </div>

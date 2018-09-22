@@ -84,7 +84,7 @@ class BookPage extends Component {
     return (
       <div>
         <Typography variant="headline" component="h2">
-          Book Management Dashboard
+          Menu | Book Management Dashboard
         </Typography>
         <Button variant="fab" color="primary" aria-label="add" className={classes.button} onClick={ this.handleFormOpen }>
           <AddIcon />

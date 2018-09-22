@@ -5,7 +5,7 @@ import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 
-
+import ErrorHandlerForm from '../../helpers/ErrorHandlerForm';
 import SnackBarMessage from '../common/SnackBarMessage';
 
 const styles = theme => ({
@@ -49,17 +49,13 @@ class LoginForm extends Component{
     this.props.submit(this.state.data).then(() => {
       let error = {};
       this.setState({ errors: error });
-    }).catch((err) => {
-      console.log(err);
-      let statusCode = err.response.status;
-      switch (statusCode) {
-        case 403:
-          let error = { global: "Invalid username and password." };
-          this.setState({ errors: error, showErrors: true });
-          break;
-        default:
-          break;
+    }, (err) => {
+      let errorColl = {
+        ...err.response.data.errors,
+        global: err.response.data.message
       }
+      this.setState({ errors: errorColl })
+      this.setState({ showErrors: true });
     });
   }
 
@@ -69,7 +65,7 @@ class LoginForm extends Component{
 
   render(){
     const { classes } = this.props;
-    // const { data, errors, loading } = this.state;
+    const { errors } = this.state;
     return (
       <div>
         <SnackBarMessage
@@ -87,6 +83,8 @@ class LoginForm extends Component{
                className={classes.textField}
                margin="normal"
                onChange={ this.onChange }
+               error={ errors && typeof errors.username !== 'undefined' }
+               helperText={ errors && typeof errors.username !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.username) : "" }
              />
 
              <TextField
@@ -98,6 +96,8 @@ class LoginForm extends Component{
                 autoComplete="current-password"
                 margin="normal"
                 onChange={ this.onChange }
+                error={ errors && typeof errors.password !== 'undefined' }
+                helperText={ errors && typeof errors.password !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.password) : "" }
             />
           </CardContent>
           <CardActions>
