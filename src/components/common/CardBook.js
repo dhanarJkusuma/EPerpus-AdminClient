@@ -1,28 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
-import Grid from 'material-ui/Grid';
-import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
-import SkipPreviousIcon from 'material-ui-icons/SkipPrevious';
-import PlayArrowIcon from 'material-ui-icons/PlayArrow';
-import BookIcon from 'material-ui-icons/Book';
-import SkipNextIcon from 'material-ui-icons/SkipNext';
-import AssignmentReturnIcon from 'material-ui-icons/AssignmentReturn';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ExpansionPanel, {
-  ExpansionPanelDetails,
   ExpansionPanelSummary,
   ExpansionPanelActions,
 } from 'material-ui/ExpansionPanel';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import Chip from 'material-ui/Chip';
-import Divider from 'material-ui/Divider';
-import classNames from 'classnames';
-import Avatar from 'material-ui/Avatar';
-import { ZonedDateTime, DateTimeFormatter } from 'js-joda';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 
 const styles = theme => ({
@@ -61,7 +48,7 @@ const styles = theme => ({
 class CardBook extends Component {
 
   render(){
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     return (
       /*
       {

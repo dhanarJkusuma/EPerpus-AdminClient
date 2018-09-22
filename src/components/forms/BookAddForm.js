@@ -4,13 +4,8 @@ import TextField from 'material-ui/TextField';
 import Dialog, {
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl } from 'material-ui/Form';
-import { ListItemText } from 'material-ui/List';
-
 import PropTypes from 'prop-types'
 import Typography from 'material-ui/Typography';
 
@@ -64,7 +59,7 @@ class BookAddForm extends React.Component {
       this.props.refreshBook();
       this.setState({ errors: error, message, showMessage: true, openForm: false });
     }).catch((err) => {
-      let statusCode = err.response.status;
+      // let statusCode = err.response.status;
     });
   }
 
@@ -95,7 +90,7 @@ class BookAddForm extends React.Component {
 
   render() {
     const categoriesOption = this.props.categoriesOption;
-    const value = this.state.selectedOptionCategories && this.state.selectedOptionCategories.value;
+    // const value = this.state.selectedOptionCategories && this.state.selectedOptionCategories.value;
     return (
       <div>
         <SnackBarMessage

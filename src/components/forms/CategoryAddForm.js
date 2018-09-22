@@ -4,7 +4,6 @@ import TextField from 'material-ui/TextField';
 import Dialog, {
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
@@ -49,7 +48,7 @@ class CategoryAddForm extends React.Component {
 
       this.setState({ errors: error, message, showMessage: true, open: false });
     }).catch((err) => {
-      let statusCode = err.response.status;
+      // let statusCode = err.response.status;
     });
   }
 

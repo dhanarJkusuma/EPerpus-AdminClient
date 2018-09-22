@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
-import Icon from 'material-ui/Icon';
 import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui/Progress';
 import purple from 'material-ui/colors/purple';
@@ -85,7 +84,7 @@ class BookPage extends Component {
     return (
       <div>
         <Typography variant="headline" component="h2">
-          Management Book
+          Book Management Dashboard
         </Typography>
         <Button variant="fab" color="primary" aria-label="add" className={classes.button} onClick={ this.handleFormOpen }>
           <AddIcon />

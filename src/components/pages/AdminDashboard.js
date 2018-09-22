@@ -14,8 +14,7 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { Route, Switch } from 'react-router-dom';
 import { adminMenuItems } from '../menu/AdminMenu';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
-import Button from 'material-ui/Button';
+import Card, { CardContent } from 'material-ui/Card';
 import { connect } from 'react-redux';
 
 import CategoryPage from './CategoryPage';
@@ -122,7 +121,7 @@ class AdminDashboard extends React.Component {
 
   checkAuth = () => {
     let token = localStorage.getItem('eLibraAdminToken');
-    if(typeof token == 'undefined' || token == null){
+    if(typeof token === 'undefined' || token === null){
       this.setState({ authed: false })
     }
     this.props.checkToken(token).then(res =>  {
@@ -156,7 +155,7 @@ class AdminDashboard extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
-              ELibra Admin Dashboard
+              Library Information System | Admin Dashboard
             </Typography>
           </Toolbar>
         </AppBar>

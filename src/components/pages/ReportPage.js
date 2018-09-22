@@ -1,20 +1,15 @@
-import React, { Component, Fragment, PureComponent } from 'react';
+import React, { Component, Fragment } from 'react';
 import Typography from 'material-ui/Typography';
 import { DateTimePicker } from 'material-ui-pickers';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
-import Icon from 'material-ui/Icon';
 import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui/Progress';
 import purple from 'material-ui/colors/purple';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { getCompleteHistoryTransaction } from '../../actions/transaction';
-import CategoryAddForm from '../forms/CategoryAddForm';
-import CardCategory from '../common/CardCategory';
 import CardTransactionStatus from '../common/CardTransactionStatus';
-import CardDialog from '../common/CardDialog';
 import SnackBarMessage from '../common/SnackBarMessage';
 
 
@@ -105,7 +100,7 @@ class ReportPage extends Component {
 
   handleSearchHistory = () => {
     console.log(this.state.data);
-    if(typeof this.state.data.from != 'undefined' && typeof this.state.data.to != 'undefined'){
+    if(typeof this.state.data.from !== 'undefined' && typeof this.state.data.to !== 'undefined'){
       this.handleFetchCompleteTransactionHistory(this.state.data.from, this.state.data.to);
     }
   }
@@ -137,10 +132,8 @@ class ReportPage extends Component {
           message={ this.state.messageSnackBar }
         />
 
-
-
         <Typography variant="headline" component="h2">
-          Report Transaction
+          Menu | Report Dashboard
         </Typography>
         <div className={classes.content}>
 

@@ -1,12 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from './env';
 
-const headerToken =
-  {
-    'Content-Type': 'application/json',
-    'Authorization': `VEINTECH ${localStorage.eLibraToken}`
-  }
-
 
 function getCredentialsAxios(){
   // Set config defaults when creating the instance
@@ -15,7 +9,7 @@ function getCredentialsAxios(){
   });
 
   // Alter defaults after instance has been created
-  instance.defaults.headers.common['Authorization'] = `VEINTECH ${localStorage.eLibraAdminToken}`;
+  instance.defaults.headers.common['Authorization'] = `BEEHIVE ${localStorage.eLibraAdminToken}`;
   return instance;
 }
 

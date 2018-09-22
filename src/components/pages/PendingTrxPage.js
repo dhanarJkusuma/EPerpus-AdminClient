@@ -3,15 +3,10 @@ import Typography from 'material-ui/Typography';
 
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
-import Icon from 'material-ui/Icon';
 import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui/Progress';
 import purple from 'material-ui/colors/purple';
 import { getAllIncompleteTransaction, approveTransaction } from '../../actions/transaction';
-import CategoryAddForm from '../forms/CategoryAddForm';
-import CardCategory from '../common/CardCategory';
 import CardTransactionStatus from '../common/CardTransactionStatus';
 import CardDialog from '../common/CardDialog';
 import SnackBarMessage from '../common/SnackBarMessage';
@@ -107,7 +102,7 @@ class PendingTrxPage extends Component {
         />
 
         <Typography variant="headline" component="h2">
-          Pending Transaction
+          Menu | Pending Book 
         </Typography>
         <div className={classes.content}>
         { content }

@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import StaticNavbar from './components/common/StaticNavbar';
 import LoginPage from './components/pages/LoginPage';
-import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
-import { browserHistory } from 'react-router';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AdminDashboard from './components/pages/AdminDashboard';
 import './App.css';
-import store from './store';
 
 
 class App extends Component {
