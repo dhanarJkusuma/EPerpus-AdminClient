@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import Dialog, {
   DialogActions,
   DialogContent,
   DialogTitle,
-  withMobileDialog,
-} from 'material-ui/Dialog';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+} from '@material-ui/core/Dialog';
+import Table, { TableBody, TableCell, TableHead, TableRow } from '@material-ui/core/Table';
 
 class ResponsiveBookDialog extends React.Component {
 
@@ -85,4 +84,4 @@ ResponsiveBookDialog.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-export default withMobileDialog()(ResponsiveBookDialog);
+export default ResponsiveBookDialog;

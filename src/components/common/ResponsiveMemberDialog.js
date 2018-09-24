@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import Dialog, {
   DialogActions,
   DialogContent,
-  DialogTitle,
-  withMobileDialog,
-} from 'material-ui/Dialog';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+  DialogTitle
+} from '@material-ui/core/Dialog';
+import Table, { TableBody, TableCell, TableHead, TableRow } from '@material-ui/core/Table';
 
 class ResponsiveMemberCard extends React.Component {
 
@@ -77,4 +76,4 @@ ResponsiveMemberCard.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-export default withMobileDialog()(ResponsiveMemberCard);
+export default ResponsiveMemberCard;

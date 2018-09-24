@@ -1,11 +1,11 @@
 import React from 'react';
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import LabelIcon from 'material-ui-icons/Label';
-import BookIcon from 'material-ui-icons/Book';
-import FeedbackIcon from 'material-ui-icons/Feedback';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/List';
+import LabelIcon from '@material-ui/icons/Label';
+import BookIcon from '@material-ui/icons/Book';
+import FeedbackIcon from '@material-ui/icons/Feedback';
 
-import ExitToAppIcon from 'material-ui-icons/ExitToApp';
-import PlaylistAddCheckIcon from 'material-ui-icons/PlaylistAddCheck';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 export const adminMenuItems = (
   <div>

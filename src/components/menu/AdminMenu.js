@@ -1,12 +1,12 @@
 import React from 'react';
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/List';
 import { Link } from 'react-router-dom'
-import LabelIcon from 'material-ui-icons/Label';
-import BookIcon from 'material-ui-icons/Book';
-import FeedbackIcon from 'material-ui-icons/Feedback';
+import LabelIcon from '@material-ui/icons/Label';
+import BookIcon from '@material-ui/icons/Book';
+import FeedbackIcon from '@material-ui/icons/Feedback';
 
 
-import PlaylistAddCheckIcon from 'material-ui-icons/PlaylistAddCheck';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 export const adminMenuItems = (
   <div>

@@ -1,11 +1,11 @@
 import React from 'react';
-import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Dialog, {
   DialogActions,
   DialogContent,
   DialogTitle,
-} from 'material-ui/Dialog';
+} from '@material-ui/core/Dialog';
 import PropTypes from 'prop-types';
 
 import SnackBarMessage from '../common/SnackBarMessage';

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
-import Modal from 'material-ui/Modal';
-import Button from 'material-ui/Button';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   paper: {
@@ -34,7 +34,7 @@ class CardDialog extends Component{
           <Modal
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
-            open={ this.props.open }
+            open={ true }
             >
           <div style={modalStyle} className={classes.paper}>
              <Typography type="title" id="modal-title">
@@ -61,7 +61,6 @@ class CardDialog extends Component{
 }
 
 CardDialog.propType = {
-  open: PropTypes.object.isRequired,
   handleOpen: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
-import VisibilityIcon from 'material-ui-icons/Visibility';
-import PersonIcon from 'material-ui-icons/Person';
-import DoneIcon from 'material-ui-icons/Done';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import PersonIcon from '@material-ui/icons/Person';
+import DoneIcon from '@material-ui/icons/Done';
 import ExpansionPanel, {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   ExpansionPanelActions,
-} from 'material-ui/ExpansionPanel';
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
-import Chip from 'material-ui/Chip';
-import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
+} from '@material-ui/core/ExpansionPanel';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Chip from '@material-ui/core/Chip';
+import Divider from '@material-ui/core/Divider';
+import Avatar from '@material-ui/core/Avatar';
 import { ZonedDateTime } from 'js-joda';
 import ResponsiveBookDialog from '../common/ResponsiveBookDialog';
 import ResponsiveMemberDialog from '../common/ResponsiveMemberDialog';

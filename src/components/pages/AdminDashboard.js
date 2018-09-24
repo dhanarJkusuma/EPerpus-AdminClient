@@ -1,28 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
-import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
-import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
-import ChevronRightIcon from 'material-ui-icons/ChevronRight';
-import { Route, Switch } from 'react-router-dom';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { Route, Switch } from 'react-router';
 import { adminMenuItems } from '../menu/AdminMenu';
-import Card, { CardContent } from 'material-ui/Card';
+import Card, { CardContent } from '@material-ui/core/Card';
 import { connect } from 'react-redux';
 
 import CategoryPage from './CategoryPage';
 import BookPage from './BookPage';
 import PendingTrxPage from './PendingTrxPage';
 import ReportPage from './ReportPage';
-import ExitToAppIcon from 'material-ui-icons/ExitToApp';
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/List';
 import CardDialog from '../common/CardDialog';
 import AuthRoute from '../routes/AuthRoute';
 import { checkToken } from '../../actions/auth';
@@ -203,12 +203,12 @@ class AdminDashboard extends React.Component {
           </div>
 
         </main>
-        <CardDialog
+        { this.state.openDialogLogout && <CardDialog
           open={ this.state.openDialogLogout }
           handleOpen={ this.handleLogoutOpen }
           handleClose={ this.handleLogoutClose }
           message="Apakah anda yakin ingin keluar dari aplikasi ?"
-        />
+        /> } 
       </div>
     );
   }

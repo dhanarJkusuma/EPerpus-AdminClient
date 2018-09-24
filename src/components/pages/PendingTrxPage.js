@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { CircularProgress } from 'material-ui/Progress';
-import purple from 'material-ui/colors/purple';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import purple from '@material-ui/core/colors/purple';
 import { getAllIncompleteTransaction, approveTransaction } from '../../actions/transaction';
 import CardTransactionStatus from '../common/CardTransactionStatus';
 import CardDialog from '../common/CardDialog';
@@ -108,12 +108,13 @@ class PendingTrxPage extends Component {
         { content }
         </div>
 
+        { this.state.openDialogConfirm && 
         <CardDialog
-          open={ this.state.openDialogConfirm }
           handleOpen={ this.handleDialogConfirm }
           handleClose={ this.handleDialogDismiss }
           message={ this.state.messageDialog }
-        />
+      /> }
+        
 
       </div>
     )

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import { connect } from 'react-redux';
-import { CircularProgress } from 'material-ui/Progress';
-import purple from 'material-ui/colors/purple';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import purple from '@material-ui/core/colors/purple';
 import { createCategory, fetchCategory } from '../../actions/categories';
 import CategoryAddForm from '../forms/CategoryAddForm';
 import CardCategory from '../common/CardCategory';

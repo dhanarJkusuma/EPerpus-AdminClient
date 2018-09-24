@@ -20,6 +20,12 @@ function anonymousAxios(){
   return instance;
 }
 
+function wrapFileCoverBook(file){
+  const formData = new FormData()
+  formData.append('cover', file, file.name)
+  return formData;
+}
+
 export default {
   user: {
     adminLogin: (credentials) => anonymousAxios().post(`/api/v1/auth/admin/login`, credentials).then(res => res.data)
@@ -30,7 +36,15 @@ export default {
   },
   book: {
     create: (payload) => getCredentialsAxios().post('/api/v1/book', payload),
-    fetch: () => getCredentialsAxios().get('/api/v1/book').then(res => res.data)
+    fetch: () => getCredentialsAxios().get('/api/v1/book').then(res => res.data),
+    update: (code, payload) => getCredentialsAxios().put(`/api/v1/book/${code}`, payload),
+    destroy: (code) => getCredentialsAxios().delete(`/api/v1/book/${code}`),
+    uploadCover: (code, file, callback) => getCredentialsAxios().post(`/api/v1/book/upload/${code}`, wrapFileCoverBook(file), {
+      onUploadProgress: progressEvent => {
+        var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+        callback(percentCompleted);
+      }
+    })
   },
   transaction: {
     create: (payload) => getCredentialsAxios().post('/api/v1/transaction', payload),
