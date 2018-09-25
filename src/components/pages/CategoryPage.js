@@ -154,7 +154,7 @@ class CategoryPage extends Component {
         { this.state.openConfirmDelete && <CardDialog 
           handleOK={ this.handleProceedDelete }
           handleClose={ this.handleAbortDelete }
-          message="Apakah anda yakin ingin menghapus data ini ?"
+          message="Do you really want to delete this data ?"
         /> }
 
         

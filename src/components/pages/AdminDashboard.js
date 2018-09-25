@@ -206,7 +206,7 @@ class AdminDashboard extends React.Component {
           open={ this.state.openDialogLogout }
           handleOK={ this.handleLogoutOpen }
           handleClose={ this.handleLogoutClose }
-          message="Apakah anda yakin ingin keluar dari aplikasi ?"
+          message="Do you really want to exit from this app ?"
         /> } 
       </div>
     );

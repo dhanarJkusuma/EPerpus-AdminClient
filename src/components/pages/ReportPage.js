@@ -61,7 +61,7 @@ class ReportPage extends Component {
     this.props.getCompleteHistoryTransaction(start, end).then(res => {
       this.setState({ transactions: res });
     }).catch(err => {
-      console.log(err);
+      this.setState({ showMessage: true, messageSnackBar: "Something went wrong !" });
     });
   }
 
@@ -101,14 +101,9 @@ class ReportPage extends Component {
   }
 
   handleSearchHistory = () => {
-    console.log(this.state.data);
     if(typeof this.state.data.from !== 'undefined' && typeof this.state.data.to !== 'undefined'){
       this.handleFetchCompleteTransactionHistory(this.state.data.from, this.state.data.to);
     }
-  }
-
-  handleApproveTransaction = () => {
-
   }
 
   render(){

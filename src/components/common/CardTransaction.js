@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Card, { CardActions, CardContent, CardMedia } from '@material-ui/core/Card';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { deleteCart, replaceStockCart } from '../../actions/transaction';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import red from '@material-ui/core/colors/red';
 

@@ -260,7 +260,7 @@ class BookPage extends Component {
         { this.state.openConfirmDelete && <CardDialog 
           handleOK={ this.handleDeleteOK }
           handleClose={ this.handleDeleteCancel }
-          message="Apakah anda yakin ingin menghapus data ini ?"
+          message="Do you really want to delete this data ?"
         /> }
 
         { this.state.openUploadForm && <BookImageForm

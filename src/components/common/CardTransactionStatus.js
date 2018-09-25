@@ -5,11 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import PersonIcon from '@material-ui/icons/Person';
 import DoneIcon from '@material-ui/icons/Done';
-import ExpansionPanel, {
-  ExpansionPanelDetails,
-  ExpansionPanelSummary,
-  ExpansionPanelActions,
-} from '@material-ui/core/ExpansionPanel';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
@@ -224,12 +223,14 @@ class CardTransactionStatus extends Component {
        </ExpansionPanel>
 
        <ResponsiveBookDialog
+        fullScreen={ true }
         open={ this.state.openBookDetail }
         book={ this.state.selectedBook }
         onClose={ this.handleCloseDetailBook }
        />
 
        <ResponsiveMemberDialog
+        fullScreen={ true }
         open={ this.state.openMember }
         member={ this.state.member }
         onClose={ this.handleCloseMember }
