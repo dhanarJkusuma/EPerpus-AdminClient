@@ -20,12 +20,6 @@ class SnackBarMessage extends Component{
     transition: null
   };
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.open === true){
-      this.setState({ transition: this.handleTransition })
-    }
-  }
-
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -41,6 +35,7 @@ class SnackBarMessage extends Component{
     return (
       <div>
         <Snackbar
+          style={{ zIndex: 10000 }}
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'right',
@@ -49,9 +44,6 @@ class SnackBarMessage extends Component{
           open={ this.props.open }
           autoHideDuration={ 5000 }
           onClose={ this.props.handleClose }
-          SnackbarContentProps={{
-            'aria-describedby': 'message-id',
-          }}
           message={<span id="message-id">{this.props.message}</span>}
           action={[
             <IconButton

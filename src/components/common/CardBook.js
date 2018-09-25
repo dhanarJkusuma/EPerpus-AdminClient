@@ -6,14 +6,17 @@ import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import EditIcon from '@material-ui/icons/Edit';
-import ExpansionPanel, {
-  ExpansionPanelSummary,
-  ExpansionPanelActions,
-} from '@material-ui/core/ExpansionPanel';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
-import Table, { TableBody, TableCell, TableRow } from '@material-ui/core/Table';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
   item: {
@@ -49,6 +52,13 @@ const styles = theme => ({
 });
 
 class CardBook extends Component {
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      code: this.props.book.code
+    }
+  }
 
   handleUpdate = () => {
     this.props.updateEvent(this.props.book);
@@ -64,11 +74,13 @@ class CardBook extends Component {
 
   render(){
     const { classes } = this.props;
+
+    let imgSrc = this.props.updatedBook.code === this.state.code && this.props.updatedBook.coverImage !== null ? this.props.updatedBook.coverImage : this.props.book.coverImage;
     return (
       <Grid container>
         <Grid item  xs={12}>
         <div className={classes.item}>
-          <ExpansionPanel>
+        <ExpansionPanel>
          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
            <div className={classes.column}>
              <Typography className={classes.heading}>{ this.props.book.title }</Typography>
@@ -82,7 +94,11 @@ class CardBook extends Component {
            <TableBody>
              <TableRow>
                <TableCell colSpan={2}>
-                <img src={ this.props.book.coverImage } height="150px" />
+                <img 
+                  src={ imgSrc } 
+                  height="150px" 
+                  alt={ this.props.book.title }
+                />
                </TableCell>
              </TableRow>
              <TableRow>
@@ -157,8 +173,17 @@ CardBook.propTypes = {
   book: PropTypes.object.isRequired,
   updateEvent: PropTypes.func.isRequired,
   deleteEvent: PropTypes.func.isRequired,
-  uploadEvent: PropTypes.func.isRequired
+  uploadEvent: PropTypes.func.isRequired,
+  updatedImgElement: PropTypes.string,
+  updatedBook: PropTypes.object
 };
 
+function mapStateToProps(state){
+  return {
+    updatedBook: state.book.updatedBook
+  }
+}
 
-export default withStyles(styles, { withTheme: true })(CardBook);
+
+const styledComponent = withStyles(styles, { withTheme: true })(CardBook);
+export default connect(mapStateToProps, null)(styledComponent);

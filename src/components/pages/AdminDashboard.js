@@ -14,7 +14,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Route, Switch } from 'react-router';
 import { adminMenuItems } from '../menu/AdminMenu';
-import Card, { CardContent } from '@material-ui/core/Card';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import { connect } from 'react-redux';
 
 import CategoryPage from './CategoryPage';
@@ -22,7 +23,9 @@ import BookPage from './BookPage';
 import PendingTrxPage from './PendingTrxPage';
 import ReportPage from './ReportPage';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import CardDialog from '../common/CardDialog';
 import AuthRoute from '../routes/AuthRoute';
 import { checkToken } from '../../actions/auth';
@@ -31,9 +34,9 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: '100%',
+    height: '100vh',
     zIndex: 1,
-    overflow: 'hidden',
+    overflowY: 'auto',
     position: 'relative',
     display: 'flex',
   },
@@ -124,11 +127,7 @@ class AdminDashboard extends React.Component {
     if(typeof token === 'undefined' || token === null){
       this.setState({ authed: false })
     }
-    this.props.checkToken(token).then(res =>  {
-      this.setState({ authed: true })
-    }).catch(err => {
-      this.setState({ authed: false })
-    })
+    this.setState({ authed: true })
   }
 
   handleLogoutOpen = () => {
@@ -205,7 +204,7 @@ class AdminDashboard extends React.Component {
         </main>
         { this.state.openDialogLogout && <CardDialog
           open={ this.state.openDialogLogout }
-          handleOpen={ this.handleLogoutOpen }
+          handleOK={ this.handleLogoutOpen }
           handleClose={ this.handleLogoutClose }
           message="Apakah anda yakin ingin keluar dari aplikasi ?"
         /> } 

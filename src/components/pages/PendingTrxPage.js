@@ -110,7 +110,7 @@ class PendingTrxPage extends Component {
 
         { this.state.openDialogConfirm && 
         <CardDialog
-          handleOpen={ this.handleDialogConfirm }
+          handleOK={ this.handleDialogConfirm }
           handleClose={ this.handleDialogDismiss }
           message={ this.state.messageDialog }
       /> }

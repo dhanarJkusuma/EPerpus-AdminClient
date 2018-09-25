@@ -1,17 +1,16 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@material-ui/core/Dialog';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography';
-
-import SnackBarMessage from '../common/SnackBarMessage';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+
+import ErrorHandlerForm from '../../helpers/ErrorHandlerForm';
 
 
 class BookForm extends React.Component {
@@ -19,35 +18,22 @@ class BookForm extends React.Component {
 
   constructor(props){
     super(props);
+
     let rawCategories = props.book.categories != null ? props.book.categories.map(c => c.code) : [];
     let book = Object.assign({}, props.book);
     book.categories = rawCategories;
     book.categoryCode = rawCategories;
     let oldCode = props.book.code != null ? props.book.code : "";
+    let isUpdate = props.book.code != null
 
     this.state = {
-      openForm: false,
       errors: {},
-      showErrors: false,
-      showMessage: false,
-      message: {},
       data: book,
       selectedOptionCategories: rawCategories,
-      oldCode
+      oldCode,
+      isUpdate
     };
-    console.log(this.state.data)
   }
-
-  // componentWillReceiveProps(nextProps){
-  //   if(nextProps.book != null){
-  //     this.setState({ data: nextProps.book });
-  //   }
-  //   this.setState({ openForm: nextProps.openForm });
-  // }
-
-  // handleClickOpen = () => {
-  //   this.setState({ openForm: true });
-  // };
 
   handleClose = () => {
     this.props.handleDialogClose();
@@ -64,28 +50,33 @@ class BookForm extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if(this.state.oldCode != ""){
+    if(this.state.oldCode !== ""){
       // update
       this.props.updateBook(this.state.oldCode, this.state.data).then((res) => {
         let error = {};
-        let message = { global: res.message };
-  
+
+        this.setState({ errors: error });
+        this.props.handleDialogClose();
+        this.props.handleDisplayMessage(res.message);
         this.props.refreshBook();
-        this.setState({ errors: error, message, showMessage: true, openForm: false });
       }).catch((err) => {
-        // let statusCode = err.response.status;
+        let errors = err.data.errors;
+        this.setState({ errors });
       });
       return;
     }
     // create book
     this.props.createBook(this.state.data).then((res) => {
       let error = {};
-      let message = { global: res.message };
 
+      this.setState({ errors: error });
+      this.props.handleDialogClose();
+      this.props.handleDisplayMessage(res.message);
       this.props.refreshBook();
-      this.setState({ errors: error, message, showMessage: true, openForm: false });
+
     }).catch((err) => {
-      // let statusCode = err.response.status;
+      let errors = err.data.errors;
+      this.setState({ errors });
     });
   }
 
@@ -116,19 +107,10 @@ class BookForm extends React.Component {
 
   render() {
     const categoriesOption = this.props.categoriesOption;
-    // const value = this.state.selectedOptionCategories && this.state.selectedOptionCategories.value;
+    const { errors } = this.state;
+    const disablingCode = this.state.isUpdate
     return (
       <div>
-        <SnackBarMessage
-          open={ this.state.showErrors }
-          handleClose={ this.handleDismissErrorMessage }
-          message={ this.state.errors.global }
-        />
-        <SnackBarMessage
-          open={ this.state.showMessage }
-          handleClose={ this.handleDismissMessage }
-          message={ this.state.message.global }
-        />
         <Dialog
           open={ true }
           onClose={ this.handleClose }
@@ -143,8 +125,11 @@ class BookForm extends React.Component {
               label="Code"
               type="text"
               fullWidth
+              disabled={ disablingCode }
               value={ this.state.data.code != null ? this.state.data.code : "" }
               onChange={ this.onChange }
+              error={ errors != null && typeof errors.code !== 'undefined' }
+              helperText={ errors != null && typeof errors.code !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.code) : "" }
             />
             <TextField
               id="title"
@@ -154,6 +139,8 @@ class BookForm extends React.Component {
               fullWidth
               value={ this.state.data.title != null ? this.state.data.title : "" }
               onChange={ this.onChange }
+              error={ errors && typeof errors.title !== 'undefined' }
+              helperText={ errors && typeof errors.title !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.title) : "" }
             />
             <TextField
               id="author"
@@ -163,6 +150,8 @@ class BookForm extends React.Component {
               fullWidth
               onChange={ this.onChange }
               value={ this.state.data.author != null ? this.state.data.author : "" }
+              error={ errors && typeof errors.author !== 'undefined' }
+              helperText={ errors && typeof errors.author !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.author) : "" }
             />
             <TextField
               id="totalStock"
@@ -172,6 +161,8 @@ class BookForm extends React.Component {
               fullWidth
               onChange={ this.onChange }
               value={ this.state.data.totalStock != null ? this.state.data.totalStock : "" }
+              error={ errors && typeof errors.totalStock !== 'undefined' }
+              helperText={ errors && typeof errors.totalStock !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.totalStock) : "" }
             />
             <TextField
               id="editor"
@@ -181,6 +172,8 @@ class BookForm extends React.Component {
               fullWidth
               onChange={ this.onChange }
               value={ this.state.data.editor != null ? this.state.data.editor : "" }
+              error={ errors && typeof errors.editor !== 'undefined' }
+              helperText={ errors && typeof errors.editor !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.editor) : "" }
             />
             <TextField
               id="publisher"
@@ -190,6 +183,8 @@ class BookForm extends React.Component {
               fullWidth
               onChange={ this.onChange }
               value={ this.state.data.publisher != null ? this.state.data.publisher : "" }
+              error={ errors && typeof errors.publisher !== 'undefined' }
+              helperText={ errors && typeof errors.publisher !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.publisher) : "" }
             />
             <TextField
               id="year"
@@ -199,6 +194,8 @@ class BookForm extends React.Component {
               fullWidth
               onChange={ this.onChange }
               value={ this.state.data.year != null ? this.state.data.year : "" }
+              error={ errors && typeof errors.yaer !== 'undefined' }
+              helperText={ errors && typeof errors.year !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.year) : "" }
             />
             <br/>
             <br/>
@@ -225,7 +222,7 @@ class BookForm extends React.Component {
               Cancel
             </Button>
             <Button onClick={this.onSubmit} color="primary">
-              { this.state.oldCode != "" ? "Update" : "Create" }
+              { this.state.oldCode !== "" ? "Update" : "Create" }
             </Button>
           </DialogActions>
         </Dialog>
@@ -239,7 +236,8 @@ BookForm.propTypes = {
   updateBook: PropTypes.func.isRequired,
   refreshBook: PropTypes.func.isRequired,
   book: PropTypes.object,
-  handleDialogClose: PropTypes.func.isRequired
+  handleDialogClose: PropTypes.func.isRequired,
+  handleDisplayMessage: PropTypes.func.isRequired
 }
 
 export default BookForm;

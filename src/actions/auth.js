@@ -5,4 +5,4 @@ export const adminLogin = (credentials) => (dispatch) =>
     localStorage.eLibraAdminToken = res.token;
   })
 
-export const checkToken = (token) => (dispatch) => api.auth.checkToken(token);
+export const checkToken = (token, checkToken) => (dispatch) => api.auth.checkToken(token, checkToken);

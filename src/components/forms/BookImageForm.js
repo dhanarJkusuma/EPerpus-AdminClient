@@ -2,17 +2,16 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { withStyles } from '@material-ui/core/styles';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@material-ui/core/Dialog';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import PropTypes from 'prop-types';
 import SnackBarMessage from '../common/SnackBarMessage';
 
 const styles = theme => ({
     button: {
-      margin: theme.spacing.unit,
       width: '100%'
     },
     input: {
@@ -22,6 +21,11 @@ const styles = theme => ({
         display: 'block',
         marginLeft: 'auto',
         marginRight: 'auto'
+    },
+    formInput: {
+      display: 'block',
+      marginLeft: 'auto',
+      marginRight: 'auto'
     }
   });
 
@@ -42,7 +46,6 @@ class BookImageForm extends React.Component {
       isUploading: false,
       percentage: 0
     };
-    console.log(this.state.data)
   }
 
   handleClose = () => {
@@ -61,10 +64,10 @@ class BookImageForm extends React.Component {
     e.preventDefault();
     this.setState({ isUploading: true })
     this.props.uploadCoverBook(
-        this.state.data.code, 
+        this.state.data, 
         this.state.selectedFile, 
         (percentage) => {
-            this.setState({ percentage })
+            this.setState({ percentage });
         });
   }
 
@@ -99,26 +102,33 @@ class BookImageForm extends React.Component {
         >
           <DialogTitle id="form-dialog-title">Upload Cover Book</DialogTitle>
           <DialogContent>
-            <img src={ this.state.urlFile } height={100} className={ classes.image }/> 
+            <img 
+              src={ this.state.urlFile } 
+              alt={ this.props.book.title }
+              height={100} 
+              className={ classes.image }
+            /> 
             <br />
-            <input
-                accept="image/*"
-                className={classes.input}
-                id="raised-button-file"
-                type="file"
-                onChange={ this.handleChangeCover }
-            />
-            <label htmlFor="raised-button-file">
-                <Button variant="raised" color="primary" component="span" className={classes.button}>
-                    Select Image
-                </Button>
-            </label>
+            <div className={ classes.formInput }>
+              <input
+                  accept="image/*"
+                  className={classes.input}
+                  id="raised-button-file"
+                  type="file"
+                  onChange={ this.handleChangeCover }
+              />
+              <label htmlFor="raised-button-file">
+                  <Button variant="raised" color="primary" component="span" className={classes.button}>
+                      Select Image
+                  </Button>
+              </label>
+            </div>
             <br />
             <LinearProgress variant="determinate" value={ this.state.percentage } />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-                Cancel
+                Close
             </Button>
             <Button onClick={ this.onSubmit } color="primary">
                 Upload

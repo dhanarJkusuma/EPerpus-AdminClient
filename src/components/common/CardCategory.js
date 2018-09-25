@@ -4,11 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ExpansionPanel, {
-  ExpansionPanelSummary,
-  ExpansionPanelActions,
-} from '@material-ui/core/ExpansionPanel';
+import EditIcon from '@material-ui/icons/Edit';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 
 const styles = theme => ({
   item: {
@@ -43,11 +44,16 @@ const styles = theme => ({
   }
 });
 
-class CardCategory extends Component {
-  state = {
 
+class CardCategory extends Component {
+  handleUpdateEvent = () => {
+    this.props.updateEvent(this.props.category);
   }
 
+  handleDeleteEvent = () => {
+    this.props.deleteEvent(this.props.category);
+  }
+  
   render(){
     const { classes } = this.props;
     return (
@@ -62,9 +68,13 @@ class CardCategory extends Component {
            </div>
          </ExpansionPanelSummary>
          <ExpansionPanelActions>
-            <Button size="small" color="primary" onClick={ this.handleCompleteTransaction }>
-             Remove
-             <DeleteIcon className={classes.leftIcon} />
+            <Button color="primary" onClick={ this.handleUpdateEvent }>
+              Edit
+              <EditIcon className={ classes.leftIcon } />
+            </Button>
+            <Button color="secondary" onClick={ this.handleDeleteEvent }>
+              Remove
+              <DeleteIcon className={ classes.leftIcon } />
             </Button>
          </ExpansionPanelActions>
        </ExpansionPanel>
@@ -76,7 +86,9 @@ class CardCategory extends Component {
 CardCategory.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired
+  category: PropTypes.object.isRequired,
+  updateEvent: PropTypes.func.isRequired,
+  deleteEvent: PropTypes.func.isRequired
 };
 
 

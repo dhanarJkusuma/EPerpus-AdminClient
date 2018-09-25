@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Card, { CardActions, CardContent } from '@material-ui/core/Card';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -46,10 +48,8 @@ class LoginForm extends Component{
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.submit(this.state.data).then(() => {
-      let error = {};
-      this.setState({ errors: error });
-    }, (err) => {
+    this.props.submit(this.state.data).then((res) => res)
+    .catch((err) => {
       let errorColl = {
         ...err.response.data.errors,
         global: err.response.data.message
@@ -67,7 +67,7 @@ class LoginForm extends Component{
     const { classes } = this.props;
     const { errors } = this.state;
     return (
-      <div>
+      <div style={{ color: '#888888' }}>
         <SnackBarMessage
           open={ this.state.showErrors }
           handleClose={ this.handleDismissMessage }

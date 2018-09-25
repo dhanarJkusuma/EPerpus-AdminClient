@@ -8,12 +8,25 @@ import AddIcon from '@material-ui/icons/Add';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
-import { createBook, fetchBook, updateBook, deleteBook, uploadCoverBook } from '../../actions/books';
+import Grid from '@material-ui/core/Grid';
+
+import { 
+  createBook, 
+  fetchBook, 
+  updateBook, 
+  deleteBook, 
+  uploadCoverBook, 
+  updateUploadedCoverBook,
+  searchBook
+} from '../../actions/books';
 import { fetchCategory } from '../../actions/categories';
 import BookForm from '../forms/BookForm';
 import BookImageForm from '../forms/BookImageForm';
 import CardBook from '../common/CardBook';
 import CardDialog from '../common/CardDialog';
+import SnackBarMessage from '../common/SnackBarMessage';
+import PaginationButton from '../common/PaginationButton';
+import SearchForm from '../common/SearchForm';
 
 const styles = theme => ({
   button: {
@@ -40,36 +53,79 @@ class BookPage extends Component {
       categoriesOption: [],
       selectedBook: null,
       openConfirmDelete: false,
-      deletedBook: null
+      deletedBook: null,
+      updatedImageCode: null,
+      totalPage: 0,
+      request: {
+        page: 0,
+        size: 15,
+        query: ''
+      },
+      showMessage: false
   }
 
   componentDidMount(){
-    this.handleFetchBook();
+    this.handleFetchBook(0);
     this.handleFetchCategory();
   }
 
-  handleCreateBook = (payload) => this.props.createBook(payload).then(res => {
-    this.setState({ openForm: false })
-    return res.data;
-  });
-
-  handleUpdateBook = (code, payload) => this.props.updateBook(code, payload).then(res => {
-    this.setState({ openForm: false });
-    return res.data;
-  });
-
-  handleUploadCover = (code, file, callback) => this.props.uploadCoverBook(code, file, callback).then(res => {
-    this.setState({ openUploadForm: false });
+  /* REST Function */
+  handleCreateBook = (payload) => this.props.createBook(payload).then(res => res.data);
+  handleUpdateBook = (code, payload) => this.props.updateBook(code, payload).then(res => res.data);
+  handleUploadCover = (book, file, callback) => this.props.uploadCoverBook(book.code, file, callback).then(res => {
+    // update redux state to change the book's image directly after image uploaded
+    this.props.updateUploadedCoverBook(book.code, URL.createObjectURL(file));
     return res.data;
   })
-
-  handleFetchBook = () => {
+  handleFetchBook = (page) => {
+    // display loading
     this.setState({ loadingFetch: true });
-    this.props.fetchBook().then(res => {
-      this.setState({ loadingFetch: false, books: res.data })
+    // fetch with page, and fixed size
+    this.props.fetchBook(page, this.state.request.size)
+    .then(res => {
+      this.setState({ 
+        loadingFetch: false, 
+        books: res.data,
+        request: {
+          ...this.state.request,
+          page,
+        },
+        totalPage: res.totalPage
+      })
     });
   }
-
+  handleSearchBook = (query, page)  => {
+    // display loading
+    this.setState({ loadingFetch: true });
+    // fetch with query, page, and fixed size
+    this.props.searchBook(query, page, this.state.request.size)
+      .then(res => {
+        let request = {
+          ...this.state.request,
+          query,
+          page
+        };
+        this.setState({
+          loadingFetch: false,
+          books: res.data,
+          request
+        });
+        console.log(this.state)
+      })
+      .catch((err) => {
+        this.handleShowMessage("Something went wrong !");
+      });
+  }
+  handleFetchBookPagination = (query, page) => {
+    if(query !== ''){
+      this.handleSearchBook(query, page);
+    }else{
+      this.handleFetchBook(page);
+    }
+  }
+  handleReloadFetchBook = () => {
+    this.handleFetchBook(0);
+  }
   handleFetchCategory = () => {
     this.props.fetchCategory().then(res => {
       let categoriesOption = res.data.map(c => (
@@ -81,6 +137,7 @@ class BookPage extends Component {
       this.setState({ loadingFetch: false, categoriesOption })
     });
   }
+  /* End REST Function */
 
   handleCleanOpenForm = () => {
     this.setState({ openForm: true, selectedBook: {} });
@@ -108,12 +165,12 @@ class BookPage extends Component {
       this.props.deleteBook(this.state.deletedBook.code)
         .then(() => {
           this.setState({ openConfirmDelete: false });
-          this.handleFetchBook();
+          this.handleReloadFetchBook();
+          this.handleShowMessage("Book deleted successfully !");
         }).catch((err) => {
-          console.log(err);
+          this.handleShowMessage("Failed to delete selected book, Something were wrong !");
         });
     }
-    
   }
 
   handleDeleteCancel = () => {
@@ -124,15 +181,36 @@ class BookPage extends Component {
     this.setState({ openConfirmDelete: true, deletedBook: book });
   }
 
+   /* Snackbar message */
+   handleDismissMessage = () => {
+    this.setState({ showMessage: false, message: "" });
+  }
+
+  handleShowMessage = (message) => {
+    this.setState({ showMessage: true, message });
+  }
+  /* End function of Snackbar message */
+
+  /* Init Searching Function */
+  handleInitSearch = (query) => {
+    this.handleFetchBookPagination(query, 0);
+  }
+
   render(){
     const { classes } = this.props;
+    let pagination = this.state.books.length > 0 ? <PaginationButton 
+      page={ this.state.request.page } 
+      totalPages={ this.state.totalPage } 
+      onChangePage={ this.handleFetchBookPagination } 
+    /> : ""
     const books = this.state.books.map((book, index) => 
       <CardBook 
         book={ book } 
-        key={index} 
+        key={ index } 
         updateEvent={ () => this.handleShowUpdateForm(book) } 
         deleteEvent={ () => this.handleDeleteConfirmation(book) }
         uploadEvent={ () => this.handleShowUploadForm(book) }
+        updatedImgElement={ this.state.updatedImageCode }
     />)
     const loading = (
       <div className={classes.centerLoading}>
@@ -151,7 +229,19 @@ class BookPage extends Component {
         </Button>
 
         <div className={classes.content}>
+        <Grid container>
+          <Grid item xs={12}>
+            <SearchForm searchEvent={ this.handleInitSearch }/>
+          </Grid>
+        </Grid>
+        <br />
+        <br />
+        <br />
         { content }
+        <br />
+        <br />
+        <br />
+        { pagination }
         </div>
 
   
@@ -159,25 +249,33 @@ class BookPage extends Component {
           <BookForm
             createBook={ this.handleCreateBook }
             updateBook={ this.handleUpdateBook }
-            refreshBook={ this.handleFetchBook }
+            refreshBook={ this.handleReloadFetchBook }
             categoriesOption={this.state.categoriesOption}
             book={ this.state.selectedBook }
             handleDialogClose={ this.handleFormClose }
+            handleDisplayMessage={ this.handleShowMessage }
           />
         }
         
         { this.state.openConfirmDelete && <CardDialog 
-          handleOpen={ this.handleDeleteOK }
+          handleOK={ this.handleDeleteOK }
           handleClose={ this.handleDeleteCancel }
           message="Apakah anda yakin ingin menghapus data ini ?"
         /> }
 
         { this.state.openUploadForm && <BookImageForm
           uploadCoverBook={ this.handleUploadCover }
-          refreshBook={ this.handleFetchBook }
+          refreshBook={ this.handleReloadFetchBook }
           book={ this.state.selectedBook }
           handleDialogClose={ this.handleFormUploadClose }
         /> }
+
+        <SnackBarMessage
+          open={ this.state.showMessage }
+          handleClose={ this.handleDismissMessage }
+          message={ this.state.message }
+        />
+
       </div>
     )
   }
@@ -185,6 +283,7 @@ class BookPage extends Component {
 
 BookPage.propTypes = {
   classes: PropTypes.object.isRequired,
+  updateUploadedCoverBook: PropTypes.func.isRequired
 };
 const styledComponent = withStyles(styles)(BookPage);
 export default connect(null, { 
@@ -193,5 +292,7 @@ export default connect(null, {
   updateBook, 
   fetchCategory, 
   deleteBook,
-  uploadCoverBook
+  uploadCoverBook,
+  updateUploadedCoverBook,
+  searchBook
 })(styledComponent);

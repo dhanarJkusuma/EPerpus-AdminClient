@@ -46,7 +46,7 @@ class CardDialog extends Component{
              <br/>
              <br/>
 
-            <Button color="secondary" onClick={ this.props.handleOpen } className={classes.logoutButton}>
+            <Button color="secondary" onClick={ this.props.handleOK } className={classes.logoutButton}>
                Ya
             </Button>
             <Button color="primary" onClick={ this.props.handleClose } className={classes.logoutButton}>
@@ -61,7 +61,7 @@ class CardDialog extends Component{
 }
 
 CardDialog.propType = {
-  handleOpen: PropTypes.func.isRequired,
+  handleOK: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired
 }

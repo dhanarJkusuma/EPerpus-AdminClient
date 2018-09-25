@@ -1,5 +1,7 @@
 import React from 'react';
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { Link } from 'react-router-dom'
 import LabelIcon from '@material-ui/icons/Label';
 import BookIcon from '@material-ui/icons/Book';

@@ -44,13 +44,6 @@ const styles = theme => ({
 class CardTransaction extends Component {
   state = {}
 
-  constructor(props){
-    super(props);
-  }
-
-  componentWillReceiveProps(nextProps){
-  }
-
   handleRemove = (e) => {
     let foundInCartIndex = -1;
     let index = 0;

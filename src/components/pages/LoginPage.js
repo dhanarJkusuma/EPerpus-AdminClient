@@ -16,7 +16,7 @@ class LoginPage extends Component{
 
   onLogin = (data) => this.props.adminLogin(data).then(() => this.props.history.push('/dashboard/watch'));
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     this.checkToken();
   }
 
