@@ -23,7 +23,7 @@
     "typeface-roboto": "^0.0.54"
   },
   "scripts": {
-    "start": "PORT=1011 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
